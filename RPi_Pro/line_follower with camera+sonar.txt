@@ -1,0 +1,73 @@
+#############  LINE FOLLOWER ROBOT  ##################uln 2003 ic,ir sensor ,12v 100rpm gear motor
+
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(7,GPIO.IN)
+GPIO.setup(11,GPIO.IN)
+GPIO.setup(13,GPIO.OUT)
+GPIO.setup(15,GPIO.OUT)
+GPIO.setup(37,GPIO.OUT)
+TRIG = 16
+ECHO = 18
+GPIO.setup(TRIG,GPIO.OUT)
+GPIO.setup(ECHO,GPIO.IN)
+
+GPIO.output(TRIG, False)
+print "no obstacles....."
+#time.sleep(2)
+
+def sonar():
+  GPIO.output(TRIG, True)
+   time.sleep(0.00001)
+   GPIO.output(TRIG, False)
+   
+   while GPIO.input(ECHO)==0:
+          pulse_start = time.time()
+
+   while GPIO.input(ECHO)==1:
+          pulse_end = time.time()
+
+   pulse_duration = pulse_end - pulse_start
+
+   distance = pulse_duration * 17150
+
+   distance = round(distance+1.15, 2)
+   
+   return distance
+  
+   
+ 
+while 1:
+
+   GPIO.output(37,True)
+
+   a=GPIO.input(7)
+   b=GPIO.input(11)
+   GPIO.output(13,0)
+   GPIO.output(15,0)
+   
+   if(a==1):
+     print('motor1 on')
+     GPIO.output(13,True)
+   if(b==1):
+     print('motor2 on')
+     GPIO.output(15,True)
+
+   distance=sonar()
+	 
+   if distance<=15 and distance>=1:
+      print "distance:",distance,"cm"
+	  GPIO.output(13,0)
+      GPIO.output(15,0)
+
+          
+   if distance>20 :
+      print "place the object...."
+      GPIO.output(13,1)
+      GPIO.output(15,1)
+   #time.sleep(2)
+
+  
+ 
+   

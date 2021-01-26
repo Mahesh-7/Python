@@ -1,0 +1,21 @@
+#uln 2003 ic,ir sensor ,12v 100rpm gear motor
+
+import RPi.GPIO as GPIO
+from time import sleep
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(7,GPIO.IN)
+GPIO.setup(11,GPIO.IN)
+GPIO.setup(13,GPIO.OUT)
+GPIO.setup(15,GPIO.OUT)
+while 1:
+ 
+  a=GPIO.input(7)
+  b=GPIO.input(11)
+  GPIO.output(13,0)
+  GPIO.output(15,0)
+  if(a==1):
+    print('motor1 on')
+    GPIO.output(13,True)
+  if(b==1):
+    print('motor2 on')
+    GPIO.output(15,True)
